@@ -2,7 +2,8 @@ import { Routes, Route} from 'react-router-dom';
 import {Inicial} from '../Paginas/Inicial';
 import { Quadro } from '../Componentes/Quadro';
 import {CadUsuario} from '../Paginas/CadUsuario';
-import { CadTarefa } from '../Paginas/cadTarefa';
+import { CadTarefa } from '../Paginas/CadTarefa';
+import { EditarTarefa } from '../Paginas/EditarTarefa';
 
 export function Rotas(){
     return(
@@ -11,6 +12,7 @@ export function Rotas(){
                 <Route index element ={<Quadro/>}/>
                 <Route path='cadUsuario' element={<CadUsuario/>}/>
                 <Route path ='cadTarefa' element={<CadTarefa/>}/>
+                <Route path ='editarTarefa/:id' element={<EditarTarefa/>}/>
             </Route>
         </Routes>
 

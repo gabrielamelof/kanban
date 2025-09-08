@@ -1,0 +1,17 @@
+@use './variaveis' as *;
+
+
+.container{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;   
+    gap: 10px;  
+    .caixa{
+        display: grid;
+        justify-content: center;
+        align-items: center;
+        background-color: rgb(22, 109, 109);
+        border-radius: 15px;
+        width: 250px;
+    }
+}
