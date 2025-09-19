@@ -4,13 +4,15 @@
     margin: 10px auto;
     padding: 20px;
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    border-radius: 15px;
+    grid-template-columns: repeat(3, auto);
     gap: 20px;
-    background-color:$secondary;
+    border-radius: 15px;
+    background-color:#1D2D44;
 
     h1 {
         font-size: 26px;
         color: $primary; // Título destacado
+        text-align: center;
+        margin-bottom: 30px;
     }
 }

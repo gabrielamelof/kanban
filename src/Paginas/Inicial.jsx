@@ -5,8 +5,8 @@ import { Outlet } from "react-router-dom";
 export function Inicial(){
     return(
         <>
-            <BarraNavegacao/>
             <Cabecalho/>
+            <BarraNavegacao/>
             <Outlet/>
         </>
     )
