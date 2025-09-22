@@ -1,10 +1,19 @@
+import { useDraggable } from '@dnd-kit/core';
 import axios from 'axios';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 export function Tarefa({ tarefa }){
-    const [status, setStatus] = useState(tarefa.status || "");
     const navigate = useNavigate();
+    const [status, setStatus] = useState(tarefa.status || "");
+    
+
+    const{ attributes, listeners, setNodeRef, transform } = useDraggable({
+        id: tarefa.id, 
+    });
+    const style = transform
+    ? { transform: `translate(${transform.x}px, ${transform.y}px)` }
+    : undefined;
 
     async function alterarStatus() {
         try{
@@ -37,7 +46,7 @@ export function Tarefa({ tarefa }){
     }
     return(
         <section className="container">
-            <article className="caixa">
+            <article className="caixa" ref={setNodeRef} style={style}{...listeners}{...attributes}>
                 <h3 id={`tarefa: ${tarefa.id}`}>{tarefa.descricao}</h3>
                 <dl>
                     <dt>Setor:</dt>
@@ -46,8 +55,11 @@ export function Tarefa({ tarefa }){
                     <dt>Prioridade:</dt>
                     <dd>{tarefa.prioridade}</dd>
                 </dl>
-                <button onClick={()=>navigate(`/editarTarefa/${tarefa.id}`)}>Editar</button>
-                <button onClick={() => excluitTarefa(tarefa.id)}>Excluir</button>
+                <section className='botoes'>
+                    <button onClick={()=>navigate(`/editarTarefa/${tarefa.id}`)}>Editar</button>
+                    <button onClick={() => excluitTarefa(tarefa.id)}>Excluir</button>
+                </section>
+                
                 <form>
                     <label>Status:</label>
                         <select name="status" id={tarefa.id} value= {status}
