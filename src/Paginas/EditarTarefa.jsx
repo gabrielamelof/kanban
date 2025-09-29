@@ -69,8 +69,9 @@ export function EditarTarefa({ tarefas, setTarefas }) {
       <form onSubmit={handleSubmit(salvarEdicao)}>
 
         {/* Campo Descrição */}
-        <label htmlFor="descricao">Descrição</label>
+        <label htmlFor="descricao">Descrição (Apenas Leitura)</label>
         <textarea
+          className='descricao-txt'
           readOnly
           id="descricao"
           {...register("descricao")}
@@ -80,8 +81,9 @@ export function EditarTarefa({ tarefas, setTarefas }) {
         {errors.descricao && <p id="erro-descricao">{errors.descricao.message}</p>}
 
         {/* Campo Setor */}
-        <label htmlFor="nome_setor">Setor</label>
+        <label htmlFor="nome_setor">Setor: (Apenas Leitura)</label>
         <input
+          className='setor_input'
           readOnly
           id="nome_setor"
           type="text"

@@ -36,7 +36,7 @@ export function CadUsuario(){
         let valor = e.target.value;
         valor = valor.replace(/[^A-Za-zÀ-ÖØ-öø-ÿ ]+/g, ""); // só letras e espaço
         valor = valor.replace(/\s{2,}/g, " "); // evita espaços duplos
-        if (valor.length > 30) valor = valor.slice(0, 30);
+        if (valor.length > 30) valor = valor.slice(0, 30); 
         setValue("nome", valor);
     };
 
@@ -47,7 +47,7 @@ export function CadUsuario(){
         setValue("email", valor);
     };
 
-    // Submissão do formulário
+
     async function obterdados(data){
         console.log('Dados informados pelo usuário: ', data);
         try {

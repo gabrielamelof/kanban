@@ -1,37 +1,46 @@
 import { Coluna } from "./Coluna";
 import axios from 'axios';
-import { DndContext } from "@dnd-kit/core";
+import { DndContext, DragOverlay } from "@dnd-kit/core"; // para o drag and drop
+import { useState } from "react";
+import { Tarefa } from "./Tarefa";
 
 export function Quadro({ tarefas = [], setTarefas }) {
+  const [activeId, setActiveId] = useState(null);
+
+  function handleDragStart(event) {
+    setActiveId(event.active.id); // guarda id da tarefa arrastada
+  }
+
   function handleDragEnd(event) {
     const { active, over } = event;
+    setActiveId(null); // limpa o overlay
+
     if (!over || !active) return;
 
     const tarefaId = active.id;
     const novaColuna = over.id;
 
-    // Atualiza estado local das tarefas
+    // Atualiza estado local
     setTarefas(prev =>
       prev.map(t => String(t.id) === String(tarefaId) ? { ...t, status: novaColuna } : t)
     );
 
-    // Atualiza status da tarefa no backend
-    axios.patch(`http://127.0.0.1:8000/aplicacao/tarefas/${tarefaId}/`, { status: novaColuna })
+    // Atualiza no backend
+    axios
+      .patch(`http://127.0.0.1:8000/aplicacao/tarefas/${tarefaId}/`, { status: novaColuna })
       .catch(err => console.error("Erro ao atualizar status:", err));
   }
 
   // Filtra tarefas por coluna
-  const tarefasAfazer = tarefas.filter(t => t.status === 'a fazer');
-  const tarefasFazendo = tarefas.filter(t => t.status === 'fazendo');
-  const tarefasFeito = tarefas.filter(t => t.status === 'pronto');
+  const tarefasAfazer = tarefas.filter(t => t.status === "a fazer");
+  const tarefasFazendo = tarefas.filter(t => t.status === "fazendo");
+  const tarefasFeito = tarefas.filter(t => t.status === "pronto");
 
   return (
-    <DndContext onDragEnd={handleDragEnd}>
-      {/* Região principal do quadro, acessível */}
+    <DndContext onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
       <main className="conteiner" aria-label="Quadro de tarefas">
         <h1>Meu Quadro</h1>
-        
-        {/* Colunas do quadro com ARIA aplicadas no próprio componente Coluna */}
+
         <Coluna 
           id="a fazer" 
           titulo="A Fazer" 
@@ -51,6 +60,16 @@ export function Quadro({ tarefas = [], setTarefas }) {
           setTarefas={setTarefas} 
         />
       </main>
+
+      {/* Para mostrar o item sendo arrastado de uma coluna para a outra */}
+      <DragOverlay>
+        {activeId ? (
+          <Tarefa
+            tarefa={tarefas.find(t => String(t.id) === String(activeId))}
+            setTarefas={setTarefas}
+          />
+        ) : null}
+      </DragOverlay>
     </DndContext>
   );
 }

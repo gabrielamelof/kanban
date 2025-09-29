@@ -13,11 +13,12 @@ export function Coluna({ id, titulo, tarefas = [], setTarefas }) {
     >
       <h2 id={`${id}-titulo`}>{titulo}</h2>
 
+      {/* Faz o mapeamento das tarefas para que elas apareçam na coluna certa */}
       {tarefas.map(tarefa => (
         <Tarefa
           key={tarefa.id}
           tarefa={tarefa}
-          setTarefas={setTarefas} // essencial para atualizar o estado
+          setTarefas={setTarefas} 
         />
       ))}
     </section>

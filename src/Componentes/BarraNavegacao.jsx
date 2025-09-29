@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 
+// Barra de navegação com links para as páginas do site
 export function BarraNavegacao(){
     return(
         <nav className="barra">

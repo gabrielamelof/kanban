@@ -4,9 +4,11 @@ import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useState, useEffect } from 'react';
 
+// Constantes que serão usadas nas escolhas mais tarde
 const ESCOLHA_PRIORIDADE = ['baixa', 'media', 'alta'];
 const ESCOLHA_STATUS = ['a fazer', 'fazendo', 'feito'];
 
+// Validações e prevenções a erros 
 const schemaCadTarefa = z.object({
   descricao: z.string()
     .min(10, 'Insira ao menos 10 caracteres')
@@ -60,34 +62,64 @@ export function CadTarefa({ setTarefas }) {
     }
   }
 
+  // Render do formulário
   return (
-    <form className="formulario" onSubmit={handleSubmit(obterdados)}>
-      <h2>Cadastro de Tarefa</h2>
+    <form className="formulario" onSubmit={handleSubmit(obterdados)} aria-labelledby="cadastro-tarefa-title">
+      <h2 id="cadastro-tarefa-title">Cadastro de Tarefa</h2>
 
-      <label>Descrição:</label>
-      <input type='text' placeholder='Descrição da tarefa' {...register("descricao")} />
-      {errors.descricao && <p>{errors.descricao.message}</p>}
+      <label htmlFor='descricao'>Descrição:</label>
+      <textarea
+        id="descricao"
+        type='text'
+        placeholder='Descrição da tarefa'
+        {...register("descricao")}
+        aria-invalid={errors.descricao ? "true" : "false"}
+        aria-describedby={errors.descricao ? "descricao-error" : undefined}
+      />
+      {errors.descricao && <p id="descricao-error">{errors.descricao.message}</p>}
 
-      <label>Nome do Setor:</label>
-      <input type='text' placeholder='Nome do setor' {...register("nome_setor")} />
-      {errors.nome_setor && <p>{errors.nome_setor.message}</p>}
+      <label htmlFor='nome_setor'>Nome do Setor:</label>
+      <input
+        id="nome_setor"
+        type='text'
+        placeholder='Nome do setor'
+        {...register("nome_setor")}
+        aria-invalid={errors.nome_setor ? "true" : "false"}
+        aria-describedby={errors.nome_setor ? "nome_setor-error" : undefined}
+      />
+      {errors.nome_setor && <p id="nome_setor-error">{errors.nome_setor.message}</p>}
 
-      <label>Prioridade:</label>
-      <select {...register("prioridade")}>
+      <label htmlFor='prioridade'>Prioridade:</label>
+      <select
+        id="prioridade"
+        {...register("prioridade")}
+        aria-invalid={errors.prioridade ? "true" : "false"}
+        aria-describedby={errors.prioridade ? "prioridade-error" : undefined}
+      >
         <option value="">Selecione uma das opções</option>
         {ESCOLHA_PRIORIDADE.map(p => <option key={p} value={p}>{p}</option>)}
       </select>
-      {errors.prioridade && <p>{errors.prioridade.message}</p>}
+      {errors.prioridade && <p id="prioridade-error">{errors.prioridade.message}</p>}
 
-      <input type="hidden" value="a fazer" {...register("status")} />
+      <input
+        type="hidden"
+        value="a fazer"
+        {...register("status")}
+        aria-invalid={errors.status ? "true" : "false"}
+      />
       {errors.status && <p>{errors.status.message}</p>}
 
-      <label>Usuário:</label>
-      <select {...register('usuario', { valueAsNumber: true })}>
+      <label htmlFor='usuario'>Usuário:</label>
+      <select
+        id='usuario'
+        {...register('usuario', { valueAsNumber: true })}
+        aria-invalid={errors.usuario ? "true" : "false"}
+        aria-describedby={errors.usuario ? "usuario-error" : undefined}
+      >
         <option value="">Selecione um usuário</option>
         {usuarios.map(u => <option key={u.id} value={u.id}>{u.nome}</option>)}
       </select>
-      {errors.usuario && <p>{errors.usuario.message}</p>}
+      {errors.usuario && <p id="usuario-error">{errors.usuario.message}</p>}
 
       <button type='submit'>Cadastrar</button>
     </form>

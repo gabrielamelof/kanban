@@ -46,7 +46,7 @@ export function Tarefa({ tarefa, setTarefas }) {
 
   return (
     <div className="container">
-      {/* Cada tarefa como item de lista e arrastável */}
+      {/* Para que cada tarefa seja um item seprado */}
       <article
         className="caixa"
         ref={setNodeRef}
@@ -55,19 +55,20 @@ export function Tarefa({ tarefa, setTarefas }) {
         aria-label={`Tarefa: ${tarefa.descricao}, setor: ${tarefa.nome_setor}, prioridade: ${tarefa.prioridade}, status: ${status}`}
       >
         {/* Cabeçalho arrastável */}
-        <header {...listeners} {...attributes} tabIndex={0}>
+        <header {...listeners} {...attributes} tabIndex={0}
+        role='banner'>
           <h3>{tarefa.descricao}</h3>
         </header>
 
         <dl>
-          <dt>Setor:</dt>
-          <dd>{tarefa.nome_setor}</dd>
+          <dt id={`setor-${tarefa.id}`}>Setor:</dt>
+          <dd aria-labelledby={`setor-${tarefa.id}`}>{tarefa.nome_setor}</dd>
 
-          <dt>Prioridade:</dt>
-          <dd>{tarefa.prioridade}</dd>
+          <dt id={`prioridade-${tarefa.id}`}>Prioridade:</dt>
+          <dd aria-labelledby={`prioridade-${tarefa.id}`}>{tarefa.prioridade}</dd>
 
-          <dt>Vinculado a:</dt>
-          <dd>{tarefa.usuario_nome}</dd>
+          <dt id={`usuario-${tarefa.id}`}>Vinculado a:</dt>
+          <dd aria-labelledby={`usuario-${tarefa.id}`}>{tarefa.usuario_nome}</dd>
         </dl>
 
         <section className="botoes">

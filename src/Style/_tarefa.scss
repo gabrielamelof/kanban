@@ -11,9 +11,8 @@
   color: $text-dark;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   transition: transform 0.2s ease;
-  overflow: hidden;         // previne overflow horizontal
-  word-wrap: break-word;    // quebra palavras longas
-  max-width: 100%;          // impede ultrapassar a coluna
+  overflow: hidden;     
+  word-wrap: break-word; //para quebrar palavras que sejam muito longas e não passar do tamanho do quadro
   box-sizing: border-box;
 
   &:hover {
@@ -27,8 +26,8 @@
     padding: 1rem;
     margin-bottom: 0.5rem;
     transition: transform 0.2s ease;
-    overflow: hidden;           // previne overflow horizontal
-    word-wrap: break-word;      // quebra palavras longas
+    overflow: hidden;          
+    word-wrap: break-word;    
     max-width: 100%;
 
     &:hover {
@@ -40,16 +39,20 @@
       font-size: 1.2rem;
       color: $accent;
       margin: 0 0 0.5rem 0;
-      white-space: nowrap;       // mantém em uma linha
-      overflow: hidden;          // esconde o excesso
-      text-overflow: ellipsis; 
-      white-space: normal;    // permite quebrar linha
-      overflow-wrap: break-word; // quebra palavras longas
-      word-break: break-word; // para navegadores mais antigos
+      white-space: nowrap;     
+      overflow: hidden;         
+      text-overflow: ellipsis;  //mostra três pontinhos caso a tarefa seja muito grande 
+      white-space: normal;
+      overflow-wrap: break-word;
     }
 
     dl {
       margin: 0 0 1rem 0;
+      display: flex;
+      display: grid;
+      grid-template-columns: auto 1fr;
+      align-items: flex-start;
+      text-align: start;
 
       dt {
         font-weight: bold;
@@ -60,7 +63,7 @@
       dd {
         display: inline;
         margin: 0 0.8rem 0 0;
-        word-break: break-word; // garante que texto longo não vaze
+        word-break: break-word; 
       }
     }
 
