@@ -1,4 +1,4 @@
-import { useDraggable } from '@dnd-kit/core';
+import { useDraggable } from '@dnd-kit/core'; // drag and drop
 import axios from 'axios';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';

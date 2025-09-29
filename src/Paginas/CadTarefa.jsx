@@ -67,6 +67,8 @@ export function CadTarefa({ setTarefas }) {
     <form className="formulario" onSubmit={handleSubmit(obterdados)} aria-labelledby="cadastro-tarefa-title">
       <h2 id="cadastro-tarefa-title">Cadastro de Tarefa</h2>
 
+      {/* Aria usado para acessibilidade */}
+
       <label htmlFor='descricao'>Descrição:</label>
       <textarea
         id="descricao"

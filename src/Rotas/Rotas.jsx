@@ -7,7 +7,7 @@ import { CadUsuario } from '../Paginas/CadUsuario';
 import { CadTarefa } from '../Paginas/CadTarefa';
 import { EditarTarefa } from '../Paginas/EditarTarefa';
 
-// Função para que as tarefas sejam atualizadas e apareçam no qudro sem erros
+// Função para que as tarefas sejam atualizadas e apareçam no quadro sem erros
 export function Rotas() {
   const [tarefas, setTarefas] = useState([]);
 
