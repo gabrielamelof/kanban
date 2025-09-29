@@ -1,60 +1,56 @@
 import { Coluna } from "./Coluna";
-import React, {useState, useEffect} from "react";
 import axios from 'axios';
-import { DndContext } from "@dnd-kit/core"; // uso da biblioteca de clicar e arrastar
+import { DndContext } from "@dnd-kit/core";
 
-export function Quadro(){
-    const [tarefas, setTarefas] = useState([]);
+export function Quadro({ tarefas = [], setTarefas }) {
+  function handleDragEnd(event) {
+    const { active, over } = event;
+    if (!over || !active) return;
 
-    // hook que permite a renderização de alguma coisa na tela. effect é composto de parametros. script (algoritmos) e depois as dependencias
-    useEffect(() =>{
+    const tarefaId = active.id;
+    const novaColuna = over.id;
 
-        const apiURL = 'http://127.0.0.1:8000/aplicacao/tarefas/';
-
-        axios.get(apiURL)
-            .then(response => { setTarefas(response.data)
-            })
-            .catch(error => {
-                console.error("Deu ruim", error)
-            });
-    },[]);
-
-    function handleDragEnd(event){
-        const { active, over } =event;
-
-        if(over && active){
-            const tarefaId = active.id; //quero pegar o id da tarefa que tá sofrendo o evento
-            const novaColuna =over.id; //quero pegar a coluna da tarefa
-            setTarefas(prev =>
-                prev.map(tarefa =>
-                    tarefa.id === tarefaId
-                        ? { ...tarefa, status: novaColuna }
-                        : tarefa
-                )
-            );
-            //Atualiza o status do card (muda a situação do card {a fazer/ fazendo /pronto})
-            axios.patch(`http://127.0.0.1:8000//tarefa/${tarefaId}/`, {
-                status: novaColuna
-            })
-            .catch(err => console.error("Erro ao atualizar status: ", err))
-        }
-    }
-
-    // armazenando em variaveis o resultado d euma função callback que procura tarefas com um status escpecifico
-    const tarefasAfazer = tarefas.filter(tarefa => tarefa.status === 'a-fazer');
-    const tarefasFazendo = tarefas.filter(tarefa => tarefa.status === 'fazendo');
-    const tarefasFeito = tarefas.filter(tarefa => tarefa.status === 'pronto');
-    return(
-        <DndContext onDragEnd={handleDragEnd}>
-            <main className="conteiner">
-                <h1>Meu Quadro</h1>
-
-                <Coluna id="a-fazer" titulo="A Fazer" tarefas={tarefasAfazer}/>
-                <Coluna id="fazendo" titulo="Fazendo" tarefas={tarefasFazendo}/>
-                <Coluna id="pronto" titulo="Feito" tarefas={tarefasFeito}/>
-            </main>
-        </DndContext>
+    // Atualiza estado local das tarefas
+    setTarefas(prev =>
+      prev.map(t => String(t.id) === String(tarefaId) ? { ...t, status: novaColuna } : t)
     );
 
+    // Atualiza status da tarefa no backend
+    axios.patch(`http://127.0.0.1:8000/aplicacao/tarefas/${tarefaId}/`, { status: novaColuna })
+      .catch(err => console.error("Erro ao atualizar status:", err));
+  }
 
+  // Filtra tarefas por coluna
+  const tarefasAfazer = tarefas.filter(t => t.status === 'a fazer');
+  const tarefasFazendo = tarefas.filter(t => t.status === 'fazendo');
+  const tarefasFeito = tarefas.filter(t => t.status === 'pronto');
+
+  return (
+    <DndContext onDragEnd={handleDragEnd}>
+      {/* Região principal do quadro, acessível */}
+      <main className="conteiner" role="region" aria-label="Quadro de tarefas">
+        <h1>Meu Quadro</h1>
+        
+        {/* Colunas do quadro com ARIA aplicadas no próprio componente Coluna */}
+        <Coluna 
+          id="a fazer" 
+          titulo="A Fazer" 
+          tarefas={tarefasAfazer} 
+          setTarefas={setTarefas} 
+        />
+        <Coluna 
+          id="fazendo" 
+          titulo="Fazendo" 
+          tarefas={tarefasFazendo} 
+          setTarefas={setTarefas} 
+        />
+        <Coluna 
+          id="pronto" 
+          titulo="Feito" 
+          tarefas={tarefasFeito} 
+          setTarefas={setTarefas} 
+        />
+      </main>
+    </DndContext>
+  );
 }

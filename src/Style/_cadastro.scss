@@ -1,49 +1,83 @@
-@use './variaveis' as *;
- 
-.formularios{
-    max-width: 600px;
-    margin: 20px;
-    padding: 10px;
-    background-color: $backgrond;
-    border-radius: 10px;
-    display: flex;
-    flex-direction: column;
-    gap:10px;
-    justify-content: center ;
-   
- 
-    h2{
-        text-align: center;
-        margin-bottom: 2px;
-        font-size: 18px;
-        font-family: Arial, Helvetica, sans-serif;
-        color:$primary;
+.formulario {
+  max-width: 700px;
+  margin: 4rem auto; 
+  padding: 2rem;
+  background: #ffffff; // fundo branco igual ao card
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1rem;
+  height: 700px; // centraliza o título e botão
+
+  h2 {
+    margin-bottom: 1.2rem;
+    font-size: 2.0rem;
+    color: #2c3e50;
+    text-align: center;
+  }
+
+  label {
+    font-weight: bold;
+    color: #34495e;
+    font-size: 20px;
+  }
+
+  input,
+  select,
+  textarea {
+    margin-top: 10px;
+    margin-bottom: 20px;
+    padding: 0.7rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 1.2rem;
+    font-family: inherit; // mantém a fonte do formulário
+    transition: border 0.2s;
+    width: 100%;
+
+    &:focus {
+      border-color: #2980b9;
+      outline: none;
     }
-   
- 
-        label{
-            font-weight: bold;
-            margin-bottom: 10px;
-            color: $primary
-        }
-        input{
-            padding: 10px;
-            border: 1px solid $primary;
-            border-radius: 8px;
-            font-size: 16px;
-        }
-        button{
-            padding: 10px;
-            background-color: $accent;
-            color: $backgrond;
-            font-size: 16px;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-        }
-        .errors{
-            font-size: 12px;
-            color:red;            
-        }
- 
+  }
+
+  textarea {
+    resize: vertical; // permite redimensionar apenas verticalmente
+    min-height: 100px; // altura inicial confortável
+  }
+
+  .containerBtn {
+    display: flex;
+    justify-content: center; 
+    align-items: center;     /* centraliza verticalmente */
+    margin-top: 2rem;        /* espaço opcional acima do botão */
+  }
+
+  button {
+    padding: 0.9rem;
+    background: #2980b9;
+    color: white;
+    font-size: 1rem;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s;
+    margin-top: 1rem;
+    align-self: center;
+
+    &:hover {
+      background: #1f6391;
+    }
+  }
+
+  p {
+    font-size: 0.95rem;
+    color: red;
+    margin: -0.5rem 0 0;
+    text-align: left;
+    margin-top: 10px;
+  }
 }

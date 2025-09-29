@@ -4,13 +4,17 @@
 .container {
   background: $backgrond;
   border: 1px solid $secondary;
-  border-radius: $borda-erredondada;
+  border-radius: $borda-arredondada;
   padding: 1rem;
   margin: 1rem 0;
   font-family: $font-primary;
   color: $text-dark;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   transition: transform 0.2s ease;
+  overflow: hidden;         // previne overflow horizontal
+  word-wrap: break-word;    // quebra palavras longas
+  max-width: 100%;          // impede ultrapassar a coluna
+  box-sizing: border-box;
 
   &:hover {
     transform: translateY(-2px);
@@ -19,20 +23,29 @@
 
   .caixa {
     background: #fff;
-    border-radius: $borda-erredondada;
+    border-radius: $borda-arredondada;
     padding: 1rem;
     margin-bottom: 0.5rem;
     transition: transform 0.2s ease;
+    overflow: hidden;           // previne overflow horizontal
+    word-wrap: break-word;      // quebra palavras longas
+    max-width: 100%;
 
     &:hover {
       transform: translateY(-2px);
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     }
 
-    h3 {
+    header h3 {
       font-size: 1.2rem;
       color: $accent;
       margin: 0 0 0.5rem 0;
+      white-space: nowrap;       // mantém em uma linha
+      overflow: hidden;          // esconde o excesso
+      text-overflow: ellipsis; 
+      white-space: normal;    // permite quebrar linha
+      overflow-wrap: break-word; // quebra palavras longas
+      word-break: break-word; // para navegadores mais antigos
     }
 
     dl {
@@ -47,6 +60,7 @@
       dd {
         display: inline;
         margin: 0 0.8rem 0 0;
+        word-break: break-word; // garante que texto longo não vaze
       }
     }
 
@@ -58,12 +72,12 @@
       button {
         background: $button;
         border: none;
-        border-radius: $borda-erredondada;
+        border-radius: $borda-arredondada;
         padding: 0.4rem 0.8rem;
         font-weight: bold;
         color: $text-dark;
         cursor: pointer;
-        transition: backgrond 0.2s ease, transform 0.2s ease;
+        transition: background 0.2s ease, transform 0.2s ease;
 
         &:hover,
         &:focus {
@@ -74,7 +88,7 @@
       }
     }
 
-    form {
+    .status {
       display: flex;
       align-items: center;
       gap: 0.5rem;
@@ -86,7 +100,7 @@
 
       select {
         padding: 0.4rem;
-        border-radius: $borda-erredondada;
+        border-radius: $borda-arredondada;
         border: 1px solid $secondary;
         font-size: 0.9rem;
         background: $text-light;
@@ -102,10 +116,10 @@
         color: $text-light;
         border: none;
         padding: 0.5rem 1rem;
-        border-radius: $borda-erredondada;
+        border-radius: $borda-arredondada;
         cursor: pointer;
         font-weight: bold;
-        transition: backgrond 0.2s ease, transform 0.2s ease;
+        transition: background 0.2s ease, transform 0.2s ease;
 
         &:hover,
         &:focus {

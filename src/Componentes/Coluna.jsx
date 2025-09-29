@@ -1,17 +1,26 @@
 import { Tarefa } from './Tarefa';
-import { useDroppable } from '@dnd-kit/core';//Inserindo os locais de soltura
- 
-export function Coluna({ id, titulo, tarefas = [] }) {
-  //fazendo o controle do ambiente de soltura
-  const { setNodeRef } = useDroppable({ id })
- 
+import { useDroppable } from '@dnd-kit/core';
+
+export function Coluna({ id, titulo, tarefas = [], setTarefas }) {
+  const { setNodeRef } = useDroppable({ id });
+
   return (
-    <section className="coluna" ref={setNodeRef}>
-      <h2>{titulo}</h2>
-      {tarefas.map(tarefa => {
-        console.log("Renderizando:", tarefa);
-        return <Tarefa key={tarefa.id} tarefa={tarefa} />;
-      })}
+    // Define a coluna como lista acessível, com label associando ao título
+    <section
+      className="coluna"
+      ref={setNodeRef}
+      role="list"
+      aria-labelledby={`${id}-titulo`}
+    >
+      <h2 id={`${id}-titulo`}>{titulo}</h2>
+
+      {tarefas.map(tarefa => (
+        <Tarefa
+          key={tarefa.id}
+          tarefa={tarefa}
+          setTarefas={setTarefas} // essencial para atualizar o estado
+        />
+      ))}
     </section>
   );
 }
