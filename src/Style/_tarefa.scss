@@ -112,7 +112,7 @@
       }
 
       button {
-        background: color.adjust($accent, $lightness: 10%);
+        background: $primary;
         color: $text-light;
         border: none;
         padding: 0.5rem 1rem;

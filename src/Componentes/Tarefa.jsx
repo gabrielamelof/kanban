@@ -51,7 +51,6 @@ export function Tarefa({ tarefa, setTarefas }) {
         className="caixa"
         ref={setNodeRef}
         style={style}
-        role="listitem"
         aria-grabbed={isDragging}
         aria-label={`Tarefa: ${tarefa.descricao}, setor: ${tarefa.nome_setor}, prioridade: ${tarefa.prioridade}, status: ${status}`}
       >
@@ -66,6 +65,9 @@ export function Tarefa({ tarefa, setTarefas }) {
 
           <dt>Prioridade:</dt>
           <dd>{tarefa.prioridade}</dd>
+
+          <dt>Vinculado a:</dt>
+          <dd>{tarefa.usuario_nome}</dd>
         </dl>
 
         <section className="botoes">

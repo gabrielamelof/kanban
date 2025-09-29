@@ -28,7 +28,7 @@ export function Quadro({ tarefas = [], setTarefas }) {
   return (
     <DndContext onDragEnd={handleDragEnd}>
       {/* Região principal do quadro, acessível */}
-      <main className="conteiner" role="region" aria-label="Quadro de tarefas">
+      <main className="conteiner" aria-label="Quadro de tarefas">
         <h1>Meu Quadro</h1>
         
         {/* Colunas do quadro com ARIA aplicadas no próprio componente Coluna */}

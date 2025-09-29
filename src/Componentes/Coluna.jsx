@@ -9,7 +9,6 @@ export function Coluna({ id, titulo, tarefas = [], setTarefas }) {
     <section
       className="coluna"
       ref={setNodeRef}
-      role="list"
       aria-labelledby={`${id}-titulo`}
     >
       <h2 id={`${id}-titulo`}>{titulo}</h2>
