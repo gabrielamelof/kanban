@@ -62,7 +62,6 @@ export function CadTarefa({ setTarefas }) {
     }
   }
 
-  // Render do formulário
   return (
     <form className="formulario" onSubmit={handleSubmit(obterdados)} aria-labelledby="cadastro-tarefa-title">
       <h2 id="cadastro-tarefa-title">Cadastro de Tarefa</h2>

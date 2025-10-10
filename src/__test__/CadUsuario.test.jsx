@@ -4,13 +4,13 @@ import { describe, it, expect, vi } from "vitest";
 import axios from "axios";
 
 
-vi.mock("axios"); //evita requisições reais
+vi.mock("axios"); 
 
 describe("CadUsuario", () => {
 
   beforeEach(() => {
-    window.alert = vi.fn(); // Evita alertas bloqueando o teste
-    vi.clearAllMocks(); // Limpa mocks entre os testes
+    window.alert = vi.fn(); 
+    vi.clearAllMocks(); 
   });
 
     it("deve renderizar todos os campos do formulário", () => {
@@ -28,21 +28,18 @@ describe("CadUsuario", () => {
     it("deve renderizar a tela de cadastro de usuário", () => {
     render(<CadUsuario />);
 
-    //Para ver se o título da página é mostrado
     const titulo = screen.getByText(/Cadastro de Usuário/i);
     expect(titulo).toBeTruthy();
 
-    // Verifica se o formulário está presente
     const formulario = screen.getByRole("form");
     expect(formulario).toBeTruthy();
 
-    // Verifica se os campos Nome e Email estão presentes
+
     const nomeInput = screen.getByLabelText(/Nome/i);
     const emailInput = screen.getByLabelText(/Email/i);
     expect(nomeInput).toBeTruthy();
     expect(emailInput).toBeTruthy();
 
-    // Verifica se o botão Cadastrar está presente
     const botao = screen.getByRole("button", { name: /Cadastrar/i });
     expect(botao).toBeTruthy();
   });
@@ -52,12 +49,9 @@ describe("CadUsuario", () => {
 
   const nomeInput = screen.getByLabelText(/Nome/i);
 
-  // Tenta inserir caracteres inválidos
   fireEvent.input(nomeInput, { target: { value: "Maria@#123" } });
 
-  // Espera o valor ser processado pelo handleNomeChange
   await waitFor(() => {
-    // O valor deve conter apenas letras e espaços
     expect(nomeInput.value).toBe("Maria");
   });
   });
@@ -68,18 +62,15 @@ describe("CadUsuario", () => {
   const nomeInput = screen.getByLabelText(/Nome/i);
   const emailInput = screen.getByLabelText(/Email/i);
 
-  // Tenta inserir mais de 30 caracteres no nome
   const nomeGrande = "Maria Silva Sobrenome Muito Longo Extra";
   fireEvent.input(nomeInput, { target: { value: nomeGrande } });
 
-  // Tenta inserir mais de 50 caracteres no email
+
   const emailGrande = "exemploemailmuitolongoquedeveriaultrapassar@dominio.com";
   fireEvent.input(emailInput, { target: { value: emailGrande } });
 
   await waitFor(() => {
-    // Nome deve ter no máximo 30 caracteres
     expect(nomeInput.value.length).toBeLessThanOrEqual(30);
-    // Email deve ter no máximo 50 caracteres
     expect(emailInput.value.length).toBeLessThanOrEqual(50);
   });
 });
@@ -101,7 +92,6 @@ describe("CadUsuario", () => {
   it("deve mostrar erro quando o email tiver formato inválido", async () => {
     render(<CadUsuario />);
 
-    // Nome válido completo para passar na validação de nome
     fireEvent.input(screen.getByLabelText(/Nome/i), { target: { value: "Maria Silva" } });
     fireEvent.input(screen.getByLabelText(/Email/i), { target: { value: "emailinvalido" } });
 
@@ -113,7 +103,6 @@ describe("CadUsuario", () => {
   });
 
   it("deve resetar os campos após submissão", async () => {
-    // Simula retorno bem-sucedido da API
     axios.post.mockResolvedValueOnce({ data: { message: "ok" } });
 
     render(<CadUsuario />);
@@ -122,7 +111,6 @@ describe("CadUsuario", () => {
     const emailInput = screen.getByLabelText(/Email/i);
     const botao = screen.getByRole("button", { name: /Cadastrar/i });
 
-    // Nome completo válido
     fireEvent.input(nomeInput, { target: { value: "Maria Silva" } });
     fireEvent.input(emailInput, { target: { value: "maria@email.com" } });
 
@@ -141,15 +129,13 @@ describe("CadUsuario", () => {
   const emailInput = screen.getByLabelText(/Email/i);
   const botao = screen.getByRole("button", { name: /Cadastrar/i });
 
-  // Insere apenas espaços
+
   fireEvent.input(nomeInput, { target: { value: "   " } });
   fireEvent.input(emailInput, { target: { value: "   " } });
 
-  // Submete o formulário
   fireEvent.click(botao);
 
   await waitFor(() => {
-    // Verifica os erros que aparecem de fato
     expect(
       screen.getByText(/Digite nome completo \(nome e sobrenome\), sem números ou símbolos, sem espaços no início\/fim/i)
     ).toBeTruthy();
@@ -164,14 +150,12 @@ it("deve disparar a submissão ao clicar no botão", async () => {
   const emailInput = screen.getByLabelText(/Email/i);
   const botao = screen.getByRole("button", { name: /Cadastrar/i });
 
-  // Preenche os campos
+
   fireEvent.input(nomeInput, { target: { value: "Maria Silva" } });
   fireEvent.input(emailInput, { target: { value: "maria@email.com" } });
 
-  // Clica no botão
   fireEvent.click(botao);
 
-  // Espera a submissão e a limpeza dos campos
   await waitFor(() => {
     expect(nomeInput.value).toBe("");
     expect(emailInput.value).toBe("");
@@ -183,11 +167,9 @@ it("não deve permitir números no campo Nome", async () => {
 
   const nomeInput = screen.getByLabelText(/Nome/i);
 
-  // Tenta inserir números
   fireEvent.input(nomeInput, { target: { value: "Maria123 Silva456" } });
 
   await waitFor(() => {
-    // Verifica se os números foram removidos
     expect(nomeInput.value).toBe("Maria Silva");
   });
 });
@@ -199,14 +181,12 @@ it("deve validar o limite mínimo de caracteres nos campos", async () => {
   const emailInput = screen.getByLabelText(/Email/i);
   const botao = screen.getByRole("button", { name: /Cadastrar/i });
 
-  // Limpa os campos ou insere valores vazios
   fireEvent.input(nomeInput, { target: { value: "" } });
   fireEvent.input(emailInput, { target: { value: "" } });
 
   fireEvent.click(botao);
 
   await waitFor(() => {
-    // Verifica se os erros de mínimo aparecem
     expect(screen.getByText(/Insira ao menos 1 caractere/i)).toBeTruthy();
     expect(screen.getByText(/Insira seu email/i)).toBeTruthy();
   });
@@ -218,13 +198,12 @@ it("não deve permitir email com formato inválido", async () => {
   const emailInput = screen.getByLabelText(/Email/i);
   const botao = screen.getByRole("button", { name: /Cadastrar/i });
 
-  // Digita um email inválido
+
   fireEvent.input(emailInput, { target: { value: "email-invalido" } });
 
   fireEvent.click(botao);
 
   await waitFor(() => {
-    // Verifica se o erro do Zod é exibido
     const erroEmail = screen.queryByText(/Formato de email inválido/i);
     expect(erroEmail).to.exist;
   });
@@ -241,7 +220,7 @@ it("não deve permitir submissão se algum campo estiver vazio", async () => {
   const emailInput = screen.getByLabelText(/Email/i);
   const botao = screen.getByRole("button", { name: /Cadastrar/i });
 
-  // Cenário 1: nome vazio
+
   fireEvent.input(emailInput, { target: { value: "maria@email.com" } });
   fireEvent.click(botao);
 
@@ -249,7 +228,7 @@ it("não deve permitir submissão se algum campo estiver vazio", async () => {
     expect(screen.getByText(/Insira ao menos 1 caractere/i)).toBeTruthy(); 
   });
 
-  // Cenário 2: email vazio
+
   fireEvent.input(nomeInput, { target: { value: "Maria Silva" } });
   fireEvent.input(emailInput, { target: { value: "" } });
   fireEvent.click(botao);
@@ -258,19 +237,13 @@ it("não deve permitir submissão se algum campo estiver vazio", async () => {
     expect(screen.getByText(/Insira seu email/i)).toBeTruthy(); 
   });
 
-  // Cenário 3: todos preenchidos corretamente
   fireEvent.input(emailInput, { target: { value: "maria@email.com" } });
   fireEvent.click(botao);
 
   await waitFor(() => {
-    // Mensagem de sucesso ou reset do formulário
     expect(nomeInput.value).toBe(""); 
     expect(emailInput.value).toBe("");
   });
 });
-
-
-
-
 
 });
