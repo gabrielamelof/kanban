@@ -11,8 +11,8 @@ const ESCOLHA_STATUS = ['a fazer', 'fazendo', 'feito'];
 // Validações e prevenções a erros 
 const schemaCadTarefa = z.object({
   descricao: z.string()
-    .min(10, 'Insira ao menos 10 caracteres')
-    .max(300, 'Insira até 300 caracteres'),
+    .min(10, 'Insira no mínimo 10 caracteres')
+    .max(300, 'Insira no máximo 300 caracteres'),
   nome_setor: z.string()
     .min(10, 'Insira ao menos 10 caracteres')
     .max(300, 'Insira até 300 caracteres')
@@ -67,12 +67,9 @@ export function CadTarefa({ setTarefas }) {
     <form className="formulario" onSubmit={handleSubmit(obterdados)} aria-labelledby="cadastro-tarefa-title">
       <h2 id="cadastro-tarefa-title">Cadastro de Tarefa</h2>
 
-      {/* Aria usado para acessibilidade */}
-
       <label htmlFor='descricao'>Descrição:</label>
       <textarea
         id="descricao"
-        type='text'
         placeholder='Descrição da tarefa'
         {...register("descricao")}
         aria-invalid={errors.descricao ? "true" : "false"}
