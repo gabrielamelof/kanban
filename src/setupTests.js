@@ -1,2 +1,2 @@
-// src/setupTests.js ou vitest.setup.js
+// para configurar variavel global e não dar erro
 import '@testing-library/jest-dom';
